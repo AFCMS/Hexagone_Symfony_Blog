@@ -1,0 +1,23 @@
+---
+services:
+  database:
+    image: 'mysql:latest'
+    environment:
+      MYSQL_ROOT_PASSWORD: pwd
+      MYSQL_PASSWORD: pwd
+      MYSQL_USER: app
+      MYSQL_PORT: 3306
+    ports:
+      - '3306:3306'
+    volumes:
+      - './docker/database:/var/lib/mysql'
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    environment:
+      PMA_HOST: database
+      PMA_PORT: 3306
+    ports:
+      - '8080:80'
+    depends_on:
+      - database
