@@ -27,6 +27,12 @@ CREATE USER 'app4' IDENTIFIED BY 'password';
 GRANT ALL ON *.* TO 'app4';
 ```
 
+### Install Dependencies
+
+```bash
+composer install
+```
+
 ### Create Database
 
 ```bash
