@@ -45,3 +45,7 @@ php bin/console doctrine:migrations:migrate
 ```bash
 symfony server:start
 ```
+
+### Make a user admin
+
+Modify the user in phpMyAdmin and set the `roles` field to `["ROLE_ADMIN"]`
