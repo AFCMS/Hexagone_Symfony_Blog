@@ -57,11 +57,25 @@ class AdminPostController extends AbstractController
             $entityManager->persist($cat);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_admin_category_list');
+            return $this->redirectToRoute('app_main');
         }
 
         return $this->render('admin_post/edit.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Route('/admin/post/delete/{id}', name: 'app_admin_post_delete')]
+    public function delete(int $id, EntityManagerInterface $entityManager): Response
+    {
+        $category = $entityManager->getRepository(Post::class)->find($id);
+        if (!$category) {
+            throw $this->createNotFoundException('Category not found');
+        }
+
+        $entityManager->remove($category);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_main');
     }
 }
