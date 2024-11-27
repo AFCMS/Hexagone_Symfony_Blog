@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Posts{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="h3 mb-3 font-weight-normal">Posts</h1>
+        {% if query %}
+            <span>Search results for: "{{ query }}"</span>
+        {% endif %}
+        {% if category %}
+            <span>Category: {{ category.name }}</span>
+        {% endif %}
+        <span class="h">{{ posts|length }} results</span>
+        {% for post in posts %}
+            <article class="d-flex">
+                <a href="/post/{{ post.id }}">
+                    <img src="/images/posts/{{ post.picture }}" alt="cover"
+                         class="ratio ratio-16x9 rounded w-50 img-fluid">
+                </a>
+                <h2>{{ post.title }}</h2>
+
+                <p>{{ post.content }}</p>
+                <p>Published at: {{ post.publishedAt|date('Y-m-d H:i:s') }}</p>
+                <hr>
+            </article>
+        {% endfor %}
+    </div>
+{% endblock %}

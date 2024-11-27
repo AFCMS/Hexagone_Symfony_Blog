@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Post{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <h1 class="h3 mb-3 font-weight-normal">Edit Post</h1>
+                <!--suppress CssUnusedSymbol -->
+                <style>
+                    .vich-image img {
+                        margin-top: 1rem;
+                        border-radius: var(--bs-border-radius) !important;
+                        width: 100%;
+                    }
+                </style>
+
+                {{ form_start(form) }}
+                {{ form_row(form.title) }}
+                {{ form_row(form.content) }}
+                {{ form_row(form.pictureFile) }}
+                {{ form_row(form.idCategory) }}
+                <button type="submit" class="btn btn-primary">Edit</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
