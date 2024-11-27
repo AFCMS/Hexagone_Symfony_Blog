@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <div class="">
+                    <h1 class="text-start h3 mb-3 font-weight-normal w-100">{{ post.title }}</h1>
+                    <span class="w-100 text-end">by {{ post.idUser.firstName }} {{ post.idUser.lastName }}</span>
+                </div>
+
+                <img src="/images/posts/{{ post.picture }}" alt="cover"
+                     class="ratio ratio-16x9 rounded w-100 img-fluid">
+
+                <p class="fs-5 mt-2">{{ post.content }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
