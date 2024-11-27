@@ -18,8 +18,15 @@
                     <span class="w-100 text-end">by {{ post.idUser.firstName }} {{ post.idUser.lastName }}</span>
                 </div>
 
-                <img src="/images/posts/{{ post.picture }}" alt="cover"
-                     class="ratio ratio-16x9 rounded w-100 img-fluid">
+                <div class="position-relative">
+                    <img src="/images/posts/{{ post.picture }}" alt="cover"
+                         class="ratio ratio-16x9 rounded w-100 img-fluid">
+                    <h3 class="position-absolute end-0 top-0">
+                        <span class="badge text-bg- shadow" title="{{ post.idCategory.description }}">
+                            {{ post.idCategory.name }}
+                        </span>
+                    </h3>
+                </div>
 
                 <p class="fs-5 mt-2">{{ post.content }}</p>
             </div>
