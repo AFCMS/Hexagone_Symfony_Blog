@@ -14,9 +14,14 @@
         <span class="h">{{ posts|length }} results</span>
         {% for post in posts %}
             <article class="d-flex gap-4 col">
-                <a href="/post/{{ post.id }}" class="col-6">
+                <a href="/post/{{ post.id }}" class="col-6 position-relative">
                     <img src="/images/posts/{{ post.picture }}" alt="cover"
                          class="ratio ratio-16x9 rounded w-100 img-fluid">
+                    <h3 class="position-absolute end-0 top-0">
+                        <span class="badge text-bg- shadow" title="{{ post.idCategory.description }}">
+                            {{ post.idCategory.name }}
+                        </span>
+                    </h3>
                 </a>
                 <div class="col-6">
                     <h2>{{ post.title }}</h2>
