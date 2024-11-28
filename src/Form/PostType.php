@@ -6,10 +6,11 @@ use App\Entity\Category;
 use App\Entity\Post;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Validator\Constraints\File;
 
 class PostType extends AbstractType
 {
@@ -18,12 +19,19 @@ class PostType extends AbstractType
         $builder
             ->add('title')
             ->add('content', TextareaType::class)
-            ->add('pictureFile', VichImageType::class, [
+            ->add('pictureFile', FileType::class, [
                 'label' => 'Picture',
                 'required' => true,
-                'allow_delete' => false,
-                'download_uri' => false,
-                'download_label' => false
+                'mapped' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/*',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image',
+                    ])
+                ],
             ])
             ->add('idCategory', EntityType::class, [
                 'label' => 'Category',
