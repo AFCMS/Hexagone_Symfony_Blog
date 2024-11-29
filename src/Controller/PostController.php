@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Post;
+use App\Entity\User;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use DateTime;
@@ -24,33 +25,43 @@ class PostController extends AbstractController
             throw $this->createNotFoundException('The post does not exist');
         }
 
-        $comment = new Comment();
+        /** @var User|null $user */
+        $user = $this->getUser();
 
-        /** @var CommentRepository $rep */
-        $is_update = false;
-        $rep = $entityManager->getRepository(Comment::class);
-        $old_post = $rep->findByUserAndPost($this->getUser()->getId(), $post->getId());
+        if ($user) {
+            $comment = new Comment();
 
-        if ($old_post) {
-            $comment = $old_post;
-            $is_update = true;
-        } else {
-            $comment->setUser($this->getUser());
-            $comment->setPost($post);
-            $comment->setCreatedAt(new DateTime());
+            /** @var CommentRepository $rep */
+            $is_update = false;
+            $rep = $entityManager->getRepository(Comment::class);
+            $old_post = $rep->findByUserAndPost($user->getId(), $post->getId());
+
+            if ($old_post) {
+                $comment = $old_post;
+                $is_update = true;
+            } else {
+                $comment->setUser($user);
+                $comment->setPost($post);
+                $comment->setCreatedAt(new DateTime());
+            }
+
+            $form_comment = $this->createForm(CommentType::class, $comment);
+
+            $form_comment->handleRequest($request);
+
+            if ($form_comment->isSubmitted() && $form_comment->isValid()) {
+                /** @var Comment $cat */
+                $c = $form_comment->getData();
+
+                $entityManager->persist($c);
+                $entityManager->flush();
+                return $this->redirectToRoute('app_post', ['id' => $id]);
+            }
         }
 
-        $form_comment = $this->createForm(CommentType::class, $comment);
-
-        $form_comment->handleRequest($request);
-
-        if ($form_comment->isSubmitted() && $form_comment->isValid()) {
-            /** @var Comment $cat */
-            $c = $form_comment->getData();
-
-            $entityManager->persist($c);
-            $entityManager->flush();
-            return $this->redirectToRoute('app_post', ['id' => $id]);
+        if (!$user) {
+            $form_comment = null;
+            $is_update = false;
         }
 
         return $this->render('post/index.html.twig', [
@@ -69,7 +80,12 @@ class PostController extends AbstractController
             throw $this->createNotFoundException('The post does not exist');
         }
 
+        /** @var User|null $user */
         $user = $this->getUser();
+
+        if (!$user) {
+            throw $this->createNotFoundException('The user does not exist or isn\'t connected');
+        }
 
         /** @var CommentRepository $rep */
         $rep = $entityManager->getRepository(Comment::class);
