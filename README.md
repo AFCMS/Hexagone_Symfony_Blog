@@ -46,7 +46,3 @@ php bin/console doctrine:fixtures:load
 ```bash
 symfony server:start
 ```
-
-### Make a user admin
-
-Modify the user in phpMyAdmin and set the `roles` field to `["ROLE_ADMIN"]`
