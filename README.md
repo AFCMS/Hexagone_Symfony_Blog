@@ -14,13 +14,13 @@ sudo dnf install php-cli php-pdo php-mysqlnd composer
 
 ### Install [Docker](https://www.docker.com)
 
-### Run Database
+### Run Database and phpMyAdmin
 
 ```bash
 docker compose up
 ```
 
-### Run this in phpMyAdmin (for some reason)
+### Run this in phpMyAdmin (for some reason the user created in the compose file doesn't work, and neither the root user)
 
 ```mysql
 CREATE USER 'app4' IDENTIFIED BY 'password';
@@ -38,6 +38,7 @@ composer install
 ```bash
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
+php bin/console doctrine:fixtures:load
 ```
 
 ### Run Symfony Server
