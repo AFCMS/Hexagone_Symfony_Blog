@@ -10,7 +10,7 @@
 ###< symfony/framework-bundle ###
 
 /docker/
-/public/images/
+!public/images/posts/test_*
 
 ###> symfony/asset-mapper ###
 /public/assets/
